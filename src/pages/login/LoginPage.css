@@ -1,0 +1,35 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-input,
+.login-button {
+    width: 300px; /* oder eine andere feste Breite, die du bevorzugst */
+    height: 50px; /* Höhe der Elemente */
+    margin: 10px; /* Abstand zwischen den Elementen */
+    font-size: 1em; /* Schriftgröße */
+    text-align: center;
+    border-radius: 40px;
+}
+
+.login-button {
+    cursor: pointer;
+    border: none;
+}
+
+.login-button.login {
+    border-radius: 40px;
+    background: #2CF2AF;
+    font-weight: bold;
+}
+
+.login-button.register {
+    border-radius: 40px;
+    background-color: #2C75F2;
+    color: black;
+    font-weight: bold;
+}
