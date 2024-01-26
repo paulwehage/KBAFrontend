@@ -6,8 +6,14 @@ import { useNavigate } from 'react-router-dom';
 export const useRegister = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { setUser } = useUserContext();
+  const [showPopup, setShowPopup] = useState(false);
+  const { setUser, setIsAuthenticated } = useUserContext();
   const navigate = useNavigate();
+
+  const closePopup = () => {
+    setShowPopup(false);
+    navigate('/');
+  };
 
   const register = async (username: string) => {
     try {
@@ -15,15 +21,21 @@ export const useRegister = () => {
       const newUser = await createUser(username);
       if (newUser) {
         setUser(newUser);
-        navigate('/');
+        setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', 'true');
+        setShowPopup(true);
+        setTimeout(() => {
+          closePopup(); // Schließt das Popup
+          navigate('/');
+        }, 3000); // 3 Sekunden Verzögerung
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
-      alert("Fehler bei der Registrierung: " + err);
+      setShowPopup(true);
     } finally {
       setLoading(false);
     }
   };
 
-  return { register, loading, error };
+  return { register, loading, error, showPopup, closePopup };
 };

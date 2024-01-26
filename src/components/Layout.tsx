@@ -1,9 +1,9 @@
 import Navbar from './navbar/Navbar.tsx';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, hideNavbar }) => {
   return (
     <>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <div className="content">
         {children}
       </div>

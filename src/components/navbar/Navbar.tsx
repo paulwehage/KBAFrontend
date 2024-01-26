@@ -9,7 +9,6 @@ const Navbar = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">

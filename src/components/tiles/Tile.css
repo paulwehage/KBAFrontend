@@ -6,9 +6,9 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 1px solid #2c75f2; /* Rand der Kachel */
+    border: 2px solid #2c75f2; /* Rand der Kachel */
     border-radius: 10px; /* Abrunden der Ecken */
-    flex: 0 0 calc(50% - 20px)
+    flex: 0 0 calc(80% - 20px)
 }
 
 .tile:hover {
@@ -17,7 +17,7 @@
 }
 
 .tile-icon {
-    width: 100%; /* Größe des Icons */
+    font-size: 1.8em;
     margin-bottom: 10px;
 }
 

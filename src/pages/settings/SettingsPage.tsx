@@ -1,6 +1,6 @@
 import Tile from '../../components/tiles/Tile.tsx';
-import './SettingsPage.css';
 import BackButton from '../../components/buttons/BackButton.tsx';
+import './SettingsPage.css';
 
 const SettingsPage = () => {
   return (

@@ -6,8 +6,14 @@ import { useNavigate } from 'react-router-dom';
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const { setUser, setIsAuthenticated } = useUserContext();
   const navigate = useNavigate();
+
+  const closePopup = () => {
+    setShowPopup(false);
+    navigate('/'); // Weiterleitung zur Homepage nach Schließen des Popups
+  };
 
   const login = async (username: string) => {
     try {
@@ -17,17 +23,21 @@ export const useLogin = () => {
         setUser(user);
         setIsAuthenticated(true);
         localStorage.setItem('isAuthenticated', 'true');
-        navigate('/');
+        setShowPopup(true);
+        setTimeout(() => {
+          closePopup(); // Schließt das Popup
+          navigate('/'); // Weiterleitung zur Homepage
+        }, 3000); // 3 Sekunden Verzögerung
       } else {
-        alert("Benutzer nicht gefunden. Bitte registriere dich.");
+        setShowPopup(true);
       }
     } catch (err) {
+      setShowPopup(true);
       setError(err instanceof Error ? err.message : String(err));
-      alert("Fehler beim Login: " + err);
     } finally {
       setLoading(false);
     }
   };
 
-  return { login, loading, error };
+  return { login, showPopup, closePopup, loading, error };
 };

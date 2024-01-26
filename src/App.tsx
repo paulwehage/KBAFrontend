@@ -25,21 +25,39 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <Layout>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={
+            <Layout hideNavbar={true}>
+              <LoginPage />
+            </Layout>} />
           <Route path="/" element={
             <ProtectedRoute>
-              <HomePage />
+              <Layout hideNavbar={undefined}>
+                <HomePage />
+              </Layout>
             </ProtectedRoute>
           } />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/settings/user" element={<UserManagementPage />} />
-          <Route path="/settings/lists" element={<ListManagementPage />} />
-          <Route path="/settings/database" element={<DatabaseManagementPage />} />
-          <Route path="/settings/duel" element={<DuelManagementPage />} />
+          <Route path="/settings" element={
+            <Layout hideNavbar={undefined}>
+              <SettingsPage />
+            </Layout>} />
+          <Route path="/settings/user" element={
+            <Layout hideNavbar={undefined}>
+              <UserManagementPage />
+            </Layout>} />
+          <Route path="/settings/lists" element={
+            <Layout hideNavbar={undefined}>
+              <ListManagementPage />
+            </Layout>} />
+          <Route path="/settings/database" element={
+            <Layout hideNavbar={undefined}>
+              <DatabaseManagementPage />
+            </Layout>} />
+          <Route path="/settings/duel" element={
+            <Layout hideNavbar={undefined}>
+              <DuelManagementPage />
+            </Layout>} />
         </Routes>
-        </Layout>
       </Router>
     </UserProvider>
   );
