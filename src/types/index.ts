@@ -3,6 +3,12 @@ export interface User {
     username: string;
 }
 
+export interface FlashcardList {
+    flashcardListId: number;
+    flashcardListname: string;
+
+}
+
 export interface UserContextType {
     user: User | null;
     setUser: (user: User | null) => void;
