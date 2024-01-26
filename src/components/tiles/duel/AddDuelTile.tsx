@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import './AddDuelTile.css';
 
-const AddDuelTile = ({ onAdd, onCancel, isFlipped, lists }) => {
+const AddDuelTile = ({ onAdd, onCancel, isFlipped, lists, onListChange }) => {
   return (
     <div className={`flip-container ${isFlipped ? 'flip' : ''}`}>
       <div className="flipper" onClick={!isFlipped ? onAdd : null}>
@@ -11,7 +11,7 @@ const AddDuelTile = ({ onAdd, onCancel, isFlipped, lists }) => {
           <span>Add Duel</span>
         </div>
         <div className="back">
-          <select className="select">
+          <select className="select" onChange={onListChange}>
             {lists.map(list => (
               <option key={list.flashcardListId} value={list.flashcardListId}>
                 {list.flashcardListname}

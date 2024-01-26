@@ -7,14 +7,18 @@ import {useDuels} from '../../../hooks/duels/useDuels.ts';
 import {useLists} from '../../../hooks/lists/useLists.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
+import {createDuel} from '../../../services/duelService.ts';
+import {useUserContext} from '../../../hooks/context/useUserContext.ts';
+import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
 
 const DuelManagementPage = () => {
   const { duels, fetchDuels } = useDuels();
   const { lists } = useLists();
+  const { user } = useUserContext();
   const [isTileFlipped, setIsTileFlipped] = useState(false);
   const [selectedListId, setSelectedListId] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
-
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
@@ -22,7 +26,13 @@ const DuelManagementPage = () => {
 
   const handleAddDuel = async () => {
     if (isTileFlipped) {
-      // Logik, um ein neues Duell zu starten
+      try {
+        await createDuel(user?.userId, selectedListId);
+        await fetchDuels();
+        setShowSuccessPopup(true);
+      } catch (error) {
+        console.error('Failed to create duel:', error);
+      }
       setIsTileFlipped(false);
     } else {
       handleFlipTile();
@@ -48,7 +58,7 @@ const DuelManagementPage = () => {
       <div className="duel-management-container">
         <div className="tiles-container">
           {duels?.map((duel) => (
-            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} />
+            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} />
           ))}
           {isEditMode && (
             <AddDuelTile
@@ -61,6 +71,13 @@ const DuelManagementPage = () => {
             )}
         </div>
       </div>
+      {showSuccessPopup && (
+        <StatePopUp
+          message="Duel successfully added"
+          type="success"
+          onClose={() => setShowSuccessPopup(false)}
+        />
+      )}
     </>
   );
 };

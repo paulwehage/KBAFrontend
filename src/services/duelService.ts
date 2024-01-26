@@ -9,14 +9,13 @@ export const getAllDuels = async () => {
   return response.json();
 }
 
-export const createDuel = async (duel: any) => {
-  //@TODO: Implement this function
-    const response = await fetch(`${API_BASE_URL}/duel`, {
+export const createDuel = async (userID: number | undefined, flashcardListID: string) => {
+   const response = await fetch(`${API_BASE_URL}/duel`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify(duel),
+        body: JSON.stringify({ userID, flashcardListID })
     });
     if (!response.ok) {
         throw new Error('Error creating duel');

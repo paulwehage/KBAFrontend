@@ -22,6 +22,7 @@ export const useLogin = () => {
       if (user) {
         setUser(user);
         setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(user)); // Benutzer im localStorage speichern
         localStorage.setItem('isAuthenticated', 'true');
         setShowPopup(true);
         setTimeout(() => {

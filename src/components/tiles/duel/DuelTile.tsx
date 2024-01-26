@@ -2,7 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChessKnight, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import './DuelTile.css';
 
-const DuelTile = ({ duel, isEditMode, onDelete }) => {
+const DuelTile = ({ duel, lists, isEditMode, onDelete }) => {
+
+  const getListNameById = (listId: any) => {
+    console.log(lists)
+    console.log(listId)
+    const list = lists.find(list => list.flashcardListId === listId);
+    return list ? list.flashcardListname : 'List not found';
+  };
+
   return (
     <div className={`duel-tile ${isEditMode ? 'shake' : ''}`}>
       {isEditMode && (
@@ -14,8 +22,7 @@ const DuelTile = ({ duel, isEditMode, onDelete }) => {
       <div>
         <span>Players: {duel.playerUsernames.join(', ')}</span>
         <br />
-        <span>List: {duel.flashcardsForDuelId}</span>
-      </div>
+        <span>List: {getListNameById(duel.flashcardsForDuelId)}</span>      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import {User, UserContextType} from '../types';
 export const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(JSON.parse(localStorage.getItem('user')));
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem('isAuthenticated') === 'true'
   );

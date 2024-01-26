@@ -8,6 +8,7 @@ export const useLogout = () => {
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
+    localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
     navigate('/login');
   };

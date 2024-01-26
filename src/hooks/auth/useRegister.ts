@@ -22,6 +22,7 @@ export const useRegister = () => {
       if (newUser) {
         setUser(newUser);
         setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(newUser)); // Neuen Benutzer im localStorage speichern
         localStorage.setItem('isAuthenticated', 'true');
         setShowPopup(true);
         setTimeout(() => {
