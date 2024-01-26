@@ -1,4 +1,4 @@
-import Tile from '../../components/tiles/Tile.tsx';
+import Tile from '../../components/tiles/settings/Tile.tsx';
 import BackButton from '../../components/buttons/BackButton.tsx';
 import './SettingsPage.css';
 
