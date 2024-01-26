@@ -1,26 +1,21 @@
 import { useState, useEffect } from 'react';
 import {getAllUsers} from '../../services/userService.ts';
 
-export const useUsers = (userId: number) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const useUsers = () => {
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const fetchedUsers = await getAllUsers();
+      setUsers(fetchedUsers);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const data = await getAllUsers();
-        setUser(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err));
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchUsers();
+  }, []);
 
-    fetchUser();
-  }, [userId]);
-
-  return { user, loading, error };
+  return { users, fetchUsers };
 };

@@ -1,0 +1,27 @@
+.tile {
+    width: 150px; /* Breite der Kachel */
+    height: 150px; /* Höhe der Kachel */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #2c75f2; /* Rand der Kachel */
+    border-radius: 10px; /* Abrunden der Ecken */
+    flex: 0 0 calc(50% - 20px)
+}
+
+.tile:hover {
+    background-color: #2c75f2; /* Hintergrundfarbe der Kachel */
+    color: white; /* Textfarbe der Kachel */
+}
+
+.tile-icon {
+    width: 100%; /* Größe des Icons */
+    margin-bottom: 10px;
+}
+
+.tile-text {
+    font-weight: bold;
+    font-size: 1.4em;
+}

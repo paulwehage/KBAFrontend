@@ -40,3 +40,14 @@ export const createUser = async (username: string) => {
   }
   return response.json();
 };
+
+export const deleteUser = async (userId: number) => {
+  const response = await fetch(`${API_BASE_URL}/user?userid=${userId}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Error deleting user');
+  }
+  console.log(response)
+  return response.ok;
+};
