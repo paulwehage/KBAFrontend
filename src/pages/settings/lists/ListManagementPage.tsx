@@ -39,7 +39,7 @@ const ListManagementPage = () => {
       </div>
       <div className="list-management-container">
         <h1>List Management</h1>
-        <AddListTile/>
+        {isEditMode && (<AddListTile/>)}
         {lists?.map((list: FlashcardList) => (
           <ListTile key={list.flashcardListId} flashcardList={list} isEditMode={isEditMode} onDelete={handleDelete}/>
         ))}

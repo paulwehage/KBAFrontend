@@ -55,12 +55,6 @@ const UserManagementPage = () => {
   }, [error]);
 
   useEffect(() => {
-    if (error) {
-      alert('Failed to delete user');
-    }
-  }, [error]);
-
-  useEffect(() => {
     if (showSuccessPopup) {
       const timer = setTimeout(() => {
         setShowSuccessPopup(false);

@@ -1,0 +1,25 @@
+.duel-management-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh; /* Stellt die volle Höhe sicher */
+    text-align: center;
+}
+
+.tiles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Erzeugt ein responsives Grid mit maximal 4 Tiles pro Reihe */
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px; /* Begrenzt die maximale Breite des Containers */
+}
+
+.duel-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+}

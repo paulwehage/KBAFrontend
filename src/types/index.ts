@@ -9,6 +9,17 @@ export interface FlashcardList {
 
 }
 
+export interface Duel {
+    duelId: number,
+    "winnerIds": number[],
+    "winnerUsernames": string[],
+    "playerIds": number[],
+    "playerUsernames": string[],
+    "flashcardsForDuelId": number,
+    "started": boolean,
+    "finished": boolean
+}
+
 export interface UserContextType {
     user: User | null;
     setUser: (user: User | null) => void;

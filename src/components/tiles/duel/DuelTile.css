@@ -1,0 +1,46 @@
+.duel-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+    height: 20vh;
+    background: rgba(0, 116, 255, 0.5);
+}
+
+.duel-icon {
+    font-size: 4em;
+    margin-bottom: 10px;
+}
+
+.delete-button {
+    position: absolute;
+    top: -10px; /* Positioniert das X außerhalb des Tiles */
+    right: -10px;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateX(-1px) rotate(-1deg);
+    }
+    50% {
+        transform: translateX(1px) rotate(1deg);
+    }
+    75% {
+        transform: translateX(-1px) rotate(-1deg);
+    }
+}
+
+.duel-tile.shake {
+    animation: shake 0.4s ease-in-out infinite;
+}
