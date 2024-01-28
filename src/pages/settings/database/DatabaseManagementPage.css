@@ -1,0 +1,43 @@
+.database-management-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh; /* Stellt die volle Höhe sicher */
+    text-align: center;
+}
+
+.database-management-container h1 {
+    margin-bottom: 20px;
+}
+
+.database-management-container button {
+    width: 250px; /* Breite der Buttons */
+    padding: 15px; /* Polsterung für größere Buttons */
+    margin: 10px 0; /* Abstand zwischen den Buttons */
+    font-size: 18px; /* Größere Schrift */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Stil für den Button zum Löschen der Datenbank */
+.database-management-container button:first-of-type {
+    background-color: #ffcccc; /* Sanft rote Farbe */
+    color: #a00; /* Dunklere rote Schrift */
+}
+
+.database-management-container button:first-of-type:hover {
+    background-color: #e6b3b3; /* Dunklere rote Farbe beim Hover */
+}
+
+/* Stil für den Button zum Laden der Listen */
+.database-management-container button:last-of-type {
+    background-color: #ccffcc; /* Sanft grüne Farbe */
+    color: #080; /* Dunklere grüne Schrift */
+}
+
+.database-management-container button:last-of-type:hover {
+    background-color: #b3e6b3; /* Dunklere grüne Farbe beim Hover */
+}
