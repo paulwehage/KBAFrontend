@@ -26,3 +26,13 @@ export interface UserContextType {
     isAuthenticated: boolean;
     setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
+
+export interface Round {
+    correctAnswer: string,
+    errorMessage: string,
+    question: string,
+    roundId: number,
+    wrongAnswer1: string,
+    wrongAnswer2: string,
+    wrongAnswer3: string
+}

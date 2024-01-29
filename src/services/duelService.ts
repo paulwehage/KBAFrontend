@@ -64,7 +64,7 @@ export const getDuelsToJoin = async (userID: number) => {
 //@TODO: Not yet implemented, waiting for endpoint
 export const getDuelsToPlay = async (userID: number) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/duel/tojoin?userid=${userID}`);
+    const response = await fetch(`${API_BASE_URL}/duel/toplay?userId=${userID}`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }

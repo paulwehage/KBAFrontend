@@ -32,8 +32,8 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished}) =>
           if (duelAction === 'start') {
             duelsData = await getDuelsToStart(user!.userId);
           } else {
-            console.log("Es wurde play gedrückt.")
-            //duelsData = await getDuelsToPlay(user!.userId)
+            console.log("getDuelsToPlay")
+            duelsData = await getDuelsToPlay(user!.userId)
           }
           setDuels(duelsData || []);
         } catch (error) {

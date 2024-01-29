@@ -1,58 +1,15 @@
 import {API_BASE_URL} from '../constants';
+import {Round} from '../types';
 
-export const getAllNotPlayedRounds = async (userID: number, duelID: number) => {
-  /**
+export const getAllNotPlayedRounds = async (userID: number, duelID: number) : Promise<Round[]> => {
+
   const response = await fetch(`${API_BASE_URL}/duel/notPlayedRounds?userId=${userID}&duelId=${duelID}`);
 
   if (!response.ok) {
     throw new Error('Duels not found');
   }
   return response.json();
-    **/
-  return [
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    },
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    },
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    },
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    },
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    },
-    {
-      "question": "la bicicleta",
-      "wrongAnswer1": "das Pferd",
-      "wrongAnswer2": "Rad fahren",
-      "wrongAnswer3": "das Handz",
-      "correctAnswer": "das Fahrrad"
-    }
-  ]
+
 }
 
 export const createAnswer = async (answer: string, duelID: number, userID: number) => {
