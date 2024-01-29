@@ -61,3 +61,20 @@ export const getDuelsToJoin = async (userID: number) => {
     return []; // Gebe einen leeren Array zurück, falls ein Fehler auftritt
   }
 }
+
+export const joinDuels = async (duelID: number, userID: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/duel/join?duelid=${duelID}&userid=${userID}`, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Error joining duel');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error joining duel:', error);
+  }
+}
