@@ -8,10 +8,11 @@
     position: relative;
     height: 20vh;
     background: rgba(0, 116, 255, 0.5);
+    overflow: hidden; /* Verhindert, dass Inhalte aus dem Tile herausragen */
 }
 
 .duel-icon {
-    font-size: 4em;
+    font-size: 3em;
     margin-bottom: 10px;
 }
 
@@ -43,4 +44,9 @@
 
 .duel-tile.shake {
     animation: shake 0.4s ease-in-out infinite;
+}
+
+.duel-tile.selected {
+    border: 2px solid #2C75F2; /* oder eine andere Hervorhebung */
+    background-color: rgba(255, 255, 255, 0.5); /* Beispiel für ein Overlay */
 }
