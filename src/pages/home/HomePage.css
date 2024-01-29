@@ -93,10 +93,42 @@
     font-weight: bold;
 }
 
+.next-button {
+    font-size: 1.3em;
+    cursor: pointer;
+    background: #2CF2AF;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    width: 20vh;
+    font-weight: bold;
+}
+
 .back-button:hover {
     background: #6797e8;
 }
 
 .back-button-icon {
     margin-right: 10px;
+}
+
+.next-button-icon {
+    margin-left: 10px;
+}
+
+.confirm-start-button {
+    font-size: 1.3em;
+    cursor: pointer;
+    background: #2CF2AF;
+    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    width: 20vh;
+    font-weight: bold;
+}
+
+.paragraph {
+    font-size: 1.3em;
+    margin: 40px;
+    font-weight: bold;
 }

@@ -9,6 +9,7 @@
     height: 20vh;
     background: rgba(0, 116, 255, 0.5);
     overflow: hidden; /* Verhindert, dass Inhalte aus dem Tile herausragen */
+    cursor: pointer;
 }
 
 .duel-icon {

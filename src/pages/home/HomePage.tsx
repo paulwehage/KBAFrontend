@@ -6,7 +6,7 @@ import { ColorlibStepIcon } from '../../components/stepper/ColorlibStepIcon.tsx'
 import { getSteps } from '../../utils';
 import logo from '../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faRightToBracket, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faRightToBracket, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import DuelTile from '../../components/tiles/duel/DuelTile.tsx';
 import { getDuelsToJoin, getDuelsToStart } from '../../services/duelService.ts';
 import { useUserContext } from '../../hooks/context/useUserContext.ts';
@@ -53,6 +53,10 @@ const HomePage = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  const handleDuelSelection = (duelId) => {
+    setSelectedDuelId(duelId);
+  };
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -79,15 +83,15 @@ const HomePage = () => {
         );
       case 1:
         return (
-          <div className="step-content step-content-duels">
+          <div className="step-content">
             {duels.length > 0 ? (
               duels.map((duel) => (
                 <DuelTile
                   key={duel.duelId}
                   duel={duel}
                   lists={lists}
-                  onClick={() => selectDuel(duel.duelId)}
-                  isSelected={isDuelSelected(duel.duelId)}
+                  isSelected={duel.duelId === selectedDuelId}
+                  onClick={() => handleDuelSelection(duel.duelId)}
                 />
               ))
             ) : (
@@ -96,10 +100,19 @@ const HomePage = () => {
           </div>
         );
       case 2:
+        const selectedDuel = duels.find(duel => duel.duelId === selectedDuelId);
         return (
           <div className="step-content step-content-general">
-            <p>Are you sure you want to {duelAction === 'join' ? 'join' : 'start'} the duel?</p>
-            <button onClick={handleNext}>Yes</button>
+            <p className="paragraph">Are you sure you want to {duelAction === 'join' ? 'join and start' : 'start'} the duel?</p>
+            {selectedDuel && (
+              <DuelTile
+                key={selectedDuel.duelId}
+                duel={selectedDuel}
+                lists={lists}
+                isSelected={true} // Markieren Sie das ausgewählte Duell
+              />
+            )}
+            <button onClick={handleNext} className="confirm-start-button">Yes</button>
           </div>
         );
       default:
@@ -123,6 +136,9 @@ const HomePage = () => {
       <div className="step-buttons">
         {activeStep !== 0 && (
           <button className="back-button" onClick={handleBack}><FontAwesomeIcon className="back-button-icon" icon={faArrowLeft}/>Back</button>
+        )}
+        {activeStep === 1 && selectedDuelId && (
+          <button className="next-button" onClick={handleNext}>Next<FontAwesomeIcon className="next-button-icon" icon={faArrowRight}/></button>
         )}
       </div>
     </div>
