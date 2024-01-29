@@ -4,6 +4,7 @@ import { useUserContext } from '../../hooks/context/useUserContext.ts';
 import {useLists} from '../../hooks/lists/useLists.ts';
 import {DuelStepper} from '../../components/stepper/DuelStepper.tsx';
 import {useState} from 'react';
+import Quiz from '../../components/quiz/Quiz.tsx';
 
 const HomePage = () => {
   const { user } = useUserContext();
@@ -35,6 +36,7 @@ const HomePage = () => {
       <div className="content-container">
       {duelStarted && <p>Duel has been started!</p>} {/* Zeigt eine Nachricht an, wenn das Duell gestartet wurde */}
       </div>
+      <Quiz userId={user?.userId} duelId={1}/>
     </div>
   );
 }
