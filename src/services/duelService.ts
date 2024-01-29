@@ -61,8 +61,20 @@ export const getDuelsToJoin = async (userID: number) => {
     return []; // Gebe einen leeren Array zurück, falls ein Fehler auftritt
   }
 }
+//@TODO: Not yet implemented, waiting for endpoint
+export const getDuelsToPlay = async (userID: number) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/duel/tojoin?userid=${userID}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching duels to join:', error);
+  }
+}
 
-export const joinDuels = async (duelID: number, userID: number) => {
+export const joinDuel = async (duelID: number, userID: number) => {
   try {
     const response = await fetch(`${API_BASE_URL}/duel/join?duelid=${duelID}&userid=${userID}`, {
         method: 'PUT',
@@ -73,8 +85,28 @@ export const joinDuels = async (duelID: number, userID: number) => {
     if (!response.ok) {
         throw new Error('Error joining duel');
     }
+    console.log(response)
     return response.json();
   } catch (error) {
     console.error('Error joining duel:', error);
   }
 }
+
+export const startDuel = async (duelID: number | null, userID: number)=> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/duel/start?duelid=${duelID}&userid=${userID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log(response)
+    if (!response.ok) {
+      throw new Error('Error joining duel');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error joining duel:', error);
+  }
+}
+

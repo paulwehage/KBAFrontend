@@ -1,4 +1,4 @@
-.join-button, .start-button {
+.join-button, .start-button, .play-button {
     width: 60%; /* Erhöht die Breite der Buttons */
     height: 60px; /* Anpassung der Höhe, falls benötigt */
     margin: 10px;
@@ -9,7 +9,6 @@
     font-weight: bold;
     color: black;
 }
-
 .join-button {
     background: #2CF2AF;
 }
@@ -18,8 +17,12 @@
     background: #9decd2;
 }
 
+.play-button {
+    background: #2C75F2;
+}
+
 .start-button {
-    background-color: #2C75F2;
+    background-color: #6797e8;
 }
 
 .start-button:hover {
