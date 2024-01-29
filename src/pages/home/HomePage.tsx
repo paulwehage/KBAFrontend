@@ -22,14 +22,19 @@ const HomePage = () => {
 
   return (
     <div className="home-container">
-      <img src={logo} alt="logo" style={{width: '200px'}}/>
-      <DuelStepper
-        user={user}
-        lists={lists}
-        onDuelSelected={handleDuelSelected}
-        onStepperFinished={handleStepperFinished}
-      />
+      <img src={logo} alt="logo" style={{ width: '200px' }} />
+
+      <div className="stepper-container">
+        <DuelStepper
+          user={user}
+          lists={lists}
+          onDuelSelected={handleDuelSelected}
+          onStepperFinished={handleStepperFinished}
+        />
+      </div>
+      <div className="content-container">
       {duelStarted && <p>Duel has been started!</p>} {/* Zeigt eine Nachricht an, wenn das Duell gestartet wurde */}
+      </div>
     </div>
   );
 }

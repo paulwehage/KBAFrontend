@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Stack, Step, StepLabel, Stepper } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useState, useEffect} from 'react';
+import {Stack, Step, StepLabel, Stepper} from '@mui/material';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowLeft, faArrowRight, faPlay, faRightToBracket, faGamepad} from '@fortawesome/free-solid-svg-icons';
 import {getSteps} from '../../utils';
-import {getDuelsToJoin, getDuelsToStart} from '../../services/duelService.ts';
+import {getDuelsToJoin, getDuelsToPlay, getDuelsToStart} from '../../services/duelService.ts';
 import DuelTile from '../tiles/duel/DuelTile.tsx';
 import {ColorlibConnector} from './ColorlibConnector.tsx';
 import {ColorlibStepIcon} from './ColorlibStepIcon.tsx';
@@ -12,7 +12,7 @@ import {useJoinDuel} from '../../hooks/duels/useJoinDuel.ts';
 import {useStartDuel} from '../../hooks/duels/useStartDuel.ts';
 import StatePopUp from '../pop-ups/StatePopUp.tsx';
 
-export const DuelStepper = ({ user, lists, onDuelSelected, onStepperFinished }) => {
+export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished}) => {
   const [activeStep, setActiveStep] = useState(0);
   const [duelAction, setDuelAction] = useState('');
   const [duels, setDuels] = useState([]);
@@ -26,14 +26,14 @@ export const DuelStepper = ({ user, lists, onDuelSelected, onStepperFinished }) 
       if (activeStep === 1) {
         try {
           let duelsData;
-          if(duelAction === 'join') {
+          if (duelAction === 'join') {
             duelsData = await getDuelsToJoin(user!.userId)
-        }
-          if(duelAction === 'start') {
-            duelsData = await getDuelsToStart(user!.userId);
           }
-          else {
-            duelsData = await getDuelsToPlay(user!.userId)
+          if (duelAction === 'start') {
+            duelsData = await getDuelsToStart(user!.userId);
+          } else {
+            console.log("Es wurde play gedrückt.")
+            //duelsData = await getDuelsToPlay(user!.userId)
           }
           setDuels(duelsData || []);
         } catch (error) {
@@ -55,7 +55,12 @@ export const DuelStepper = ({ user, lists, onDuelSelected, onStepperFinished }) 
           setSelectedDuelId(null);
         } else if (duelAction === 'start') {
           await startDuel(selectedDuelId, user.userId);
-          //@TODO: (Fügen Sie die Logik zum Starten des Quiz und zur Weiterleitung hinzu)
+          //@TODO: Implement logic for starting the quiz and for redirection
+        } else if (duelAction == 'play') {
+          // @TODO: Wait for implementation -> redirection to quiz component
+          // get all not played rounds --> Context maybe
+          // with this date building the quiz component
+          // play Round with round id from first step (Quiz component)
         }
       } else {
         setActiveStep(prev => prev + 1); // Gehe zum nächsten Schritt
@@ -65,7 +70,6 @@ export const DuelStepper = ({ user, lists, onDuelSelected, onStepperFinished }) 
       // Fehlerbehandlung, z. B. Anzeigen einer Fehlermeldung
     }
   };
-
 
   const handleBack = () => {
     if (activeStep === 1) {
@@ -92,33 +96,38 @@ export const DuelStepper = ({ user, lists, onDuelSelected, onStepperFinished }) 
       case 0:
         return (
           <div className="step-content step-content-buttons">
-            <button className="join-button" onClick={() => handleDuelAction('join')}>Join Duel <FontAwesomeIcon icon={faRightToBracket} className="button-icon"/></button>
-            <button className="start-button" onClick={() => handleDuelAction('start')}>Start Duel <FontAwesomeIcon icon={faPlay} className="button-icon"/></button>
-            <button className="play-button" onClick={() => handleDuelAction('play')}>Play Duel <FontAwesomeIcon icon={faGamepad} className="button-icon"/></button>
+            <button className="join-button" onClick={() => handleDuelAction('join')}>Join Duel <FontAwesomeIcon
+              icon={faRightToBracket} className="button-icon"/></button>
+            <button className="start-button" onClick={() => handleDuelAction('start')}>Start Duel <FontAwesomeIcon
+              icon={faPlay} className="button-icon"/></button>
+            <button className="play-button" onClick={() => handleDuelAction('play')}>Play Duel <FontAwesomeIcon
+              icon={faGamepad} className="button-icon"/></button>
           </div>
         );
       case 1:
         return (
-          <div className="step-content">
-            {duels.length > 0 ? (
-              duels.map((duel) => (
-                <DuelTile
-                  key={duel.duelId}
-                  duel={duel}
-                  lists={lists}
-                  isSelected={duel.duelId === selectedDuelId}
-                  onClick={() => handleDuelSelection(duel.duelId)}
-                />
-              ))
-            ) : (
-              <p>No duels available.</p>
-            )}
-          </div>
+          <>
+            <div className="step-content">
+              {duels.length > 0 ? (
+                duels.map((duel) => (
+                  <DuelTile
+                    key={duel.duelId}
+                    duel={duel}
+                    lists={lists}
+                    isSelected={duel.duelId === selectedDuelId}
+                    onClick={() => handleDuelSelection(duel.duelId)}
+                  />
+                ))
+              ) : (
+                <p>No duels available.</p>
+              )}
+            </div>
+          </>
         );
       case 2:
         return (
           <div className="step-content step-content-general">
-            <p className="paragraph">Are you sure you want to {duelAction === 'join' ? 'join and start' : 'start'} the duel?</p>
+            <p className="paragraph">Are you sure you want to {duelAction} the duel?</p>
             {selectedDuel && (
               <DuelTile
                 key={selectedDuel.duelId}

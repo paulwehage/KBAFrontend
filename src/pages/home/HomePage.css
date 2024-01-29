@@ -3,9 +3,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 60vh;
+    justify-content: flex-start; /* Start am oberen Rand des Containers */
+    height: auto;
     margin-top: 60px;
+}
+
+.stepper-container {
+    flex-shrink: 0; /* Verhindert, dass sich die Größe des Steppers ändert */
+    width: 100%; /* Volle Breite */
+}
+
+.content-container {
+    flex-grow: 1; /* Nimmt den verfügbaren Raum ein */
+    width: 100%; /* Volle Breite */
+    max-width: 800px; /* Maximale Breite des Containers */
+    margin: 20px auto; /* Zentriert mit Abstand oben und unten */
+    overflow: auto; /* Fügt Scrollleisten hinzu, falls nötig */
 }
 
 .icon {
