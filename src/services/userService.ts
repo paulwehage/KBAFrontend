@@ -10,7 +10,7 @@ export const getUserByUsername = async (username: string) => {
 };
 
 export const getUserById = async (userId: number) => {
-  const response = await fetch(`${API_BASE_URL}/user/byid?userid=${userId}`);
+  const response = await fetch(`${API_BASE_URL}/user/byid?userId=${userId}`);
 
   if (!response.ok) {
     throw new Error('User not found');
@@ -42,7 +42,7 @@ export const createUser = async (username: string) => {
 };
 
 export const deleteUser = async (userId: number) => {
-  const response = await fetch(`${API_BASE_URL}/user?userid=${userId}`, {
+  const response = await fetch(`${API_BASE_URL}/user?userId=${userId}`, {
     method: 'DELETE',
   });
   if (!response.ok) {

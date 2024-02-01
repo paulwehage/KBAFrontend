@@ -1,5 +1,6 @@
 .quiz-container {
     background-color: #2C75F2;
+    margin-top: 50px;
     width: 70vh;
     min-height: 20vh;
     height: min-content;
@@ -41,7 +42,7 @@
     justify-content: space-between;
 }
 
-button {
+.button {
     width: 100%;
     font-size: 16px;
     color: #ffffff;
@@ -53,11 +54,11 @@ button {
     border: none;
 }
 
-button:hover {
+.button:hover {
     background-color: #555e7d;
 }
 
-button:focus {
+.button:focus {
     outline: none;
 }
 
@@ -65,4 +66,9 @@ button:focus {
     font-size: 24px;
     color: #252d4a;
     margin-top: 20px;
+}
+
+.back-button {
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+    background-color: #2C75F2;
 }

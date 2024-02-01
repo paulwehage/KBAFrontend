@@ -23,3 +23,7 @@
     padding: 10px 20px;
     width: 100%;
 }
+
+.duel-tile.finished {
+    background-color: #90ee90; /* Grüner Hintergrund für abgeschlossene Duelle */
+}

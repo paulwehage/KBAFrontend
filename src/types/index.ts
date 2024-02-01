@@ -5,7 +5,7 @@ export interface User {
 
 export interface FlashcardList {
     flashcardListId: number;
-    flashcardListname: string;
+    flashcardListName: string;
 
 }
 

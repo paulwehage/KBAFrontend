@@ -14,7 +14,7 @@ const AddDuelTile = ({ onAdd, onCancel, isFlipped, lists, onListChange }) => {
           <select className="select" onChange={onListChange}>
             {lists.map(list => (
               <option key={list.flashcardListId} value={list.flashcardListId}>
-                {list.flashcardListname}
+                {list.flashcardListName}
               </option>
             ))}
           </select>

@@ -4,6 +4,7 @@ import {Round} from '../types';
 export const getAllNotPlayedRounds = async (userID: number, duelID: number) : Promise<Round[]> => {
 
   const response = await fetch(`${API_BASE_URL}/duel/notPlayedRounds?userId=${userID}&duelId=${duelID}`);
+  console.log("GETALLNOTPLAYEDROUNDS",response)
 
   if (!response.ok) {
     throw new Error('Duels not found');
@@ -12,19 +13,22 @@ export const getAllNotPlayedRounds = async (userID: number, duelID: number) : Pr
 
 }
 
-export const createAnswer = async (answer: string, duelID: number, userID: number) => {
+export const createAnswer = async (answer: string, roundId: number, playerId: number) => {
+
+  console.log("CREATEANSWER",answer, roundId, playerId)
 
   const response = await fetch(`${API_BASE_URL}/duel/answer`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ answer, duelID, userID }),
+    body: JSON.stringify({ answer, roundId, playerId }),
   });
 
-  if (!response.ok) {
-    throw new Error('Error creating user');
-  }
-  return response.json();
+  console.log("CREATEANSWERRESPONSE",response)
 
+  if (!response.ok) {
+    throw new Error('Error creating answer');
+  }
+  return response;
 }

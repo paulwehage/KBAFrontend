@@ -10,11 +10,13 @@ import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import {createDuel} from '../../../services/duelService.ts';
 import {useUserContext} from '../../../hooks/context/useUserContext.ts';
 import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
+import {useDeleteDuel} from '../../../hooks/duels/useDeleteDuel.ts';
 
 const DuelManagementPage = () => {
   const { duels, fetchDuels } = useDuels();
   const { lists } = useLists();
   const { user } = useUserContext();
+  const { deleteDuel } = useDeleteDuel();
   const [isTileFlipped, setIsTileFlipped] = useState(false);
   const [selectedListId, setSelectedListId] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
@@ -39,6 +41,15 @@ const DuelManagementPage = () => {
     }
   };
 
+  const handleDeleteDuel = async (duelId: number) => {
+    try {
+      await deleteDuel(duelId);
+      await fetchDuels();
+    } catch (error) {
+      console.error('Failed to delete duel:', error);
+    }
+  }
+
   const handleCancel = () => {
     setIsTileFlipped(false);
   };
@@ -58,7 +69,7 @@ const DuelManagementPage = () => {
       <div className="duel-management-container">
         <div className="tiles-container">
           {duels?.map((duel) => (
-            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} />
+            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} onDelete={handleDeleteDuel} />
           ))}
           {isEditMode && (
             <AddDuelTile

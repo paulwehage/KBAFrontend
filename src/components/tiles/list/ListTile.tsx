@@ -12,7 +12,7 @@ const ListTile = ({ flashcardList, isEditMode, onDelete }) => {
         </button>
       )}
       <FontAwesomeIcon icon={faList} className="list-icon"/>
-      <span>{flashcardList.flashcardListname}</span>
+      <span>{flashcardList.flashcardListName}</span>
     </div>
   );
 };

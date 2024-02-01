@@ -12,7 +12,7 @@ import {useJoinDuel} from '../../hooks/duels/useJoinDuel.ts';
 import {useStartDuel} from '../../hooks/duels/useStartDuel.ts';
 import StatePopUp from '../pop-ups/StatePopUp.tsx';
 
-export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished}) => {
+export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished, onStartQuiz}) => {
   const [activeStep, setActiveStep] = useState(0);
   const [duelAction, setDuelAction] = useState('');
   const [duels, setDuels] = useState([]);
@@ -31,8 +31,8 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished}) =>
           }
           if (duelAction === 'start') {
             duelsData = await getDuelsToStart(user!.userId);
-          } else {
-            console.log("getDuelsToPlay")
+          }
+          if (duelAction === 'play') {
             duelsData = await getDuelsToPlay(user!.userId)
           }
           setDuels(duelsData || []);
@@ -47,20 +47,16 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished}) =>
 
   const handleNext = async () => {
     try {
-      if (activeStep === 2) {
-        if (duelAction === 'join') {
-          await joinDuel(selectedDuelId, user.userId);
-          setActiveStep(0);
-          setDuelAction('');
-          setSelectedDuelId(null);
-        } else if (duelAction === 'start') {
-          await startDuel(selectedDuelId, user.userId);
-          //@TODO: Implement logic for starting the quiz and for redirection
-        } else if (duelAction == 'play') {
-          // @TODO: Wait for implementation -> redirection to quiz component
-          // get all not played rounds --> Context maybe
-          // with this date building the quiz component
-          // play Round with round id from first step (Quiz component)
+      if (activeStep === 2 && (duelAction === 'start' || duelAction === 'play')) {
+        try {
+          if (duelAction === 'start') {
+            await startDuel(selectedDuelId, user.userId);
+          }
+          // Rufen Sie onStartQuiz auf, um das Quiz zu starten
+          onStartQuiz(selectedDuelId);
+        } catch (error) {
+          console.error('Error in duel process:', error);
+          // Fehlerbehandlung, z. B. Anzeigen einer Fehlermeldung
         }
       } else {
         setActiveStep(prev => prev + 1); // Gehe zum nächsten Schritt

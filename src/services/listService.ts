@@ -36,7 +36,7 @@ export const importList = async (path: string) => {
 
 export const deleteList = async (listId: number) => {
   // @TODO: Implement this function
-  const response = await fetch(`${API_BASE_URL}/vocablist?listid=${listId}`, {
+  const response = await fetch(`${API_BASE_URL}/vocablist?listId=${listId}`, {
     method: 'DELETE',
   });
 

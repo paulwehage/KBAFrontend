@@ -1,6 +1,5 @@
 .add-list-tile {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     padding: 10px;
@@ -8,7 +7,7 @@
     border-radius: 10px;
     cursor: pointer;
     height: 9vh;
-    width: 100%;
+    width: 100vh;
     margin-bottom: 15px;
 }
 

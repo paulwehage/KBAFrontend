@@ -9,7 +9,19 @@ import Quiz from '../../components/quiz/Quiz.tsx';
 const HomePage = () => {
   const { user } = useUserContext();
   const { lists } = useLists();
-  const [duelStarted, setDuelStarted] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [selectedDuelId, setSelectedDuelId] = useState(null);
+
+  const handleStartQuiz = (duelId) => {
+    setSelectedDuelId(duelId);
+    setShowQuiz(true);
+  };
+
+
+  const handleBackToStepper = () => {
+    setShowQuiz(false);
+  };
+
 
   const handleDuelSelected = (duelId: number) => {
     console.log("Selected Duel ID:", duelId);
@@ -24,19 +36,17 @@ const HomePage = () => {
   return (
     <div className="home-container">
       <img src={logo} alt="logo" style={{ width: '200px' }} />
-
-      <div className="stepper-container">
+      {!showQuiz ? (
         <DuelStepper
           user={user}
           lists={lists}
           onDuelSelected={handleDuelSelected}
           onStepperFinished={handleStepperFinished}
+          onStartQuiz={handleStartQuiz}
         />
-      </div>
-      <div className="content-container">
-      {duelStarted && <p>Duel has been started!</p>} {/* Zeigt eine Nachricht an, wenn das Duell gestartet wurde */}
-      </div>
-      <Quiz userId={user?.userId} duelId={1}/>
+      ) : (
+        <Quiz userId={user!.userId} duelId={selectedDuelId} onBackToStepper={handleBackToStepper}/>
+      )}
     </div>
   );
 }

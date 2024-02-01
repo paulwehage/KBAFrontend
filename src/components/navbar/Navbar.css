@@ -24,9 +24,6 @@
     color: black; /* Setze die gewünschte Textfarbe */
 }
 
-.navbar-brand:hover {
-    text-decoration: none; /* Entfernt die Unterstreichung beim Hover */
-}
 
 .navbar-brand span {
     margin-left: 10px;
@@ -55,6 +52,7 @@
     padding: 5px 10px;
     margin-right: 10px;
     cursor: pointer;
+    color: black;
 }
 
 .navbar-button.logout  {
