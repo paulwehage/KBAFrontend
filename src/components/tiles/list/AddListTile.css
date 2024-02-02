@@ -18,6 +18,7 @@
 .flip-container {
     perspective: 1000px;
     width: 100%;
+    min-height: 320px;
 }
 
 .flipper {
@@ -37,7 +38,10 @@
     transform: rotateY(180deg);
     border-radius: 10px;
     padding-top: 20px;
-
+    padding-bottom: 30px;
+    background: #2c75f2;
+    top: 0;
+    left: 0;
 }
 
 .front {

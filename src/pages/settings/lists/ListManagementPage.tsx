@@ -8,16 +8,18 @@ import ListTile from '../../../components/tiles/list/ListTile.tsx';
 import {useDeleteList} from '../../../hooks/lists/useDeleteList.ts';
 import {FlashcardList} from '../../../types';
 import AddListTile from '../../../components/tiles/list/AddListTile.tsx';
+import {createList, deleteList} from '../../../services/listService.ts';
+import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
 
 const ListManagementPage = () => {
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Neuer State für das Popup
+  const [showSuccessPopupDelete, setShowSuccessPopupDelete] = useState(false);
+  const [showSuccessPopupCreate, setShowSuccessPopupCreate] = useState(false);
   const { lists, fetchLists} = useLists();
   const { error} = useDeleteList()
   const [isTileFlipped, setIsTileFlipped] = useState(false);
-  const [listName, setListName] = useState('');
-  const [listPath, setListPath] = useState('');
+  const [content, setContent] = useState('');
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
@@ -26,10 +28,9 @@ const ListManagementPage = () => {
   const handleCreateList = async () => {
     if (isTileFlipped) {
       try {
-        //@TODO: create list
-        //await createList(listName, listPath);
-        //await fetchLists();
-        //setShowSuccessPopup(true);
+        await createList(content);
+        await fetchLists();
+        setShowSuccessPopupCreate(true);
       } catch (error) {
         console.error('Failed to create list:', error);
       }
@@ -41,23 +42,19 @@ const ListManagementPage = () => {
 
   const handleCancelCreateList = () => {
     setIsTileFlipped(false);
-    setListName('');
-    setListPath('');
+    setContent('');
+
   };
 
-  const handleListNameChange = (e) => {
-    setListName(e.target.value);
-  };
-
-  const handleListPathChange = (e) => {
-    setListPath(e.target.value);
+  const handleListContentChange = (e) => {
+    setContent(e.target.value);
   };
 
   const handleDelete = async (flashcardListId: number) => {
-    //await deleteList(flashcardListId);
+    await deleteList(flashcardListId);
     if (!error) {
       await fetchLists();
-      setShowSuccessPopup(true);
+      setShowSuccessPopupDelete(true);
     } else {
       alert('Failed to delete user');
     }
@@ -81,8 +78,7 @@ const ListManagementPage = () => {
               isFlipped={isTileFlipped}
               onAdd={handleCreateList}
               onCancel={handleCancelCreateList}
-              onNameChange={handleListNameChange}
-              onPathChange={handleListPathChange}
+              onContentChange={handleListContentChange}
             />
           )}
           {lists?.map((list: FlashcardList) => (
@@ -90,6 +86,20 @@ const ListManagementPage = () => {
           ))}
         </div>
       </div>
+      {showSuccessPopupDelete && (
+        <StatePopUp
+          message="List successfully deleted"
+          type="success"
+          onClose={() => setShowSuccessPopupDelete(false)}
+        />
+      )}
+      {showSuccessPopupCreate && (
+        <StatePopUp
+          message="List successfully created"
+          type="success"
+          onClose={() => setShowSuccessPopupCreate(false)}
+        />
+      )}
     </>
   )
 }

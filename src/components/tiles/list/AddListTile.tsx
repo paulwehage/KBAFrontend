@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import './AddListTile.css';
 
-const AddListTile = ({ onAdd, onCancel, isFlipped, onPathChange, onNameChange }) => {
+const AddListTile = ({ onAdd, onCancel, isFlipped, onContentChange }) => {
   return (
     <div className={`flip-container ${isFlipped ? 'flip' : ''}`}>
       <div className="flipper" onClick={!isFlipped ? onAdd : null}>
@@ -11,8 +11,7 @@ const AddListTile = ({ onAdd, onCancel, isFlipped, onPathChange, onNameChange })
           <span><b>Create new List</b></span>
         </div>
         <div className="back">
-          <input type="text" placeholder="Enter list name" onChange={onNameChange} className="input" />
-          <input type="text" placeholder="Enter absolute path" onChange={onPathChange} className="input" />
+          <input type="text" placeholder="Enter list content" onChange={onContentChange} className="input" />
           <button className="add-button" onClick={onAdd}>Create</button>
           <button className="cancel-button" onClick={onCancel}>Cancel</button>
         </div>

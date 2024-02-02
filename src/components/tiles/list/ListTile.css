@@ -29,4 +29,7 @@
     font-size: 1.5em;
 }
 
+.list-tile.shake {
+    animation: shake 0.4s ease-in-out infinite;
+}
 
