@@ -107,6 +107,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
             <div className='answer-section'>
               {getCurrentQuestionOptions().map((answerOption, index) => (
                 <button key={index}
+                        className="answer-button"
                         onClick={() => handleAnswerSubmit(answerOption.isCorrect, answerOption.answerText, answerOption.roundId)}>
                   {answerOption.answerText}
                 </button>

@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.tiles-container {
+.list-management-container .tiles-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Erzeugt ein responsives Grid mit maximal 4 Tiles pro Reihe */
     gap: 20px;

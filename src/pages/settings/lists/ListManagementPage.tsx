@@ -74,19 +74,21 @@ const ListManagementPage = () => {
         </button>
       </div>
       <div className="list-management-container">
-        <h1>List Management</h1>
-        {isEditMode && (
-          <AddListTile
-            isFlipped={isTileFlipped}
-            onAdd={handleCreateList}
-            onCancel={handleCancelCreateList}
-            onNameChange={handleListNameChange}
-            onPathChange={handleListPathChange}
-          />
-        )}
-        {lists?.map((list: FlashcardList) => (
-          <ListTile key={list.flashcardListId} flashcardList={list} isEditMode={isEditMode} onDelete={handleDelete}/>
-        ))}
+        <div>
+          <h1>List Management</h1>
+          {isEditMode && (
+            <AddListTile
+              isFlipped={isTileFlipped}
+              onAdd={handleCreateList}
+              onCancel={handleCancelCreateList}
+              onNameChange={handleListNameChange}
+              onPathChange={handleListPathChange}
+            />
+          )}
+          {lists?.map((list: FlashcardList) => (
+            <ListTile key={list.flashcardListId} flashcardList={list} isEditMode={isEditMode} onDelete={handleDelete}/>
+          ))}
+        </div>
       </div>
     </>
   )

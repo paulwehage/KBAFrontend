@@ -5,10 +5,10 @@ import './AddListTile.css';
 const AddListTile = ({ onAdd, onCancel, isFlipped, onPathChange, onNameChange }) => {
   return (
     <div className={`flip-container ${isFlipped ? 'flip' : ''}`}>
-      <div className="flipper" >
+      <div className="flipper" onClick={!isFlipped ? onAdd : null}>
         <div className="add-list-tile">
           <FontAwesomeIcon icon={faPlusCircle} className="add-icon" />
-          <span>Create new List</span>
+          <span><b>Create new List</b></span>
         </div>
         <div className="back">
           <input type="text" placeholder="Enter list name" onChange={onNameChange} className="input" />

@@ -1,23 +1,23 @@
 .add-list-tile {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     padding: 10px;
     border: 2px dashed rgba(255, 116, 0, 0.5);
     border-radius: 10px;
     cursor: pointer;
-    height: 9vh;
-    width: 100vh;
     margin-bottom: 15px;
 }
 
 .add-list-tile .add-icon {
     font-size: 3em;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
+    margin-right: 10px;
 }
 
 .flip-container {
     perspective: 1000px;
+    width: 100%;
 }
 
 .flipper {
@@ -26,16 +26,18 @@
     position: relative;
 }
 
-.front,
+.flip-container.flipped {
+    height: auto; /* oder eine spezifische Höhe, wenn umgedreht */
+}
+
 .back {
     backface-visibility: hidden;
     position: absolute;
     width: 100%; /* Setze die Breite */
-    height: 20vh; /* Setze die Höhe */
-    background: #2c75f2;
     transform: rotateY(180deg);
     border-radius: 10px;
     padding-top: 20px;
+
 }
 
 .front {

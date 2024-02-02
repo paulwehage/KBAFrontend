@@ -45,3 +45,18 @@ export const deleteList = async (listId: number) => {
     }
     console.log(response)
 }
+
+export const loadInitialListData = async () => {
+  const response = await fetch(`${API_BASE_URL}/vocablist/createinitial`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Error importing list');
+  }
+  return response.json();
+
+}

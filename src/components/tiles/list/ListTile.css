@@ -10,7 +10,7 @@
     background: rgba(255, 116, 0, 0.5);
     font-size: 1.6em;
     font-weight: bold;
-    width: 60%;
+    width: 100%;
 }
 
 .list-icon {
@@ -29,6 +29,4 @@
     font-size: 1.5em;
 }
 
-.list-tile.shake {
-    animation: shake 0.4s ease-in-out infinite;
-}
+
