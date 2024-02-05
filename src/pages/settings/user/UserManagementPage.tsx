@@ -27,20 +27,24 @@ const UserManagementPage = () => {
       await fetchUsers();
       setShowSuccessPopup(true);
     } catch (error) {
-      alert('Failed to delete user');
+      alert(error);
     }
   };
 
   const handleCreateUser = async () => {
     if (isTileFlipped) {
-      await createUser(newUsername);
-      setShowAddUser(false);
       try {
-        await fetchUsers();
-        setShowSuccessPopup(true); // Zeige Erfolgspopup
-        setNewUsername(''); // Setze den Benutzernamen zurück
+        await createUser(newUsername);
+        setShowAddUser(false);
+        try {
+          await fetchUsers();
+          setShowSuccessPopup(true); // Zeige Erfolgspopup
+          setNewUsername(''); // Setze den Benutzernamen zurück
+        } catch (error) {
+          alert('Failed to create user');
+        }
       } catch (error) {
-        alert('Failed to create user');
+        alert(error);
       }
     } else {
       handleFlipTile(); // Drehe das Tile um, um das Eingabefeld anzuzeigen

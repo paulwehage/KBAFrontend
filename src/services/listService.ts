@@ -29,7 +29,7 @@ export const deleteList = async (listId: number) => {
   });
 
     if (!response.ok) {
-        throw new Error('Error deleting list');
+        throw new Error(await response.text());
     }
     console.log(response)
 }
