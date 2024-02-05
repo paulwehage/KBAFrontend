@@ -1,25 +1,23 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, SetStateAction} from 'react';
 import {Stack, Step, StepLabel, Stepper} from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowLeft, faArrowRight, faPlay, faRightToBracket, faGamepad} from '@fortawesome/free-solid-svg-icons';
 import {getSteps} from '../../utils';
-import {getDuelsToJoin, getDuelsToPlay, getDuelsToStart} from '../../services/duelService.ts';
+import {getDuelsToJoin, getDuelsToPlay, getDuelsToStart, joinDuel, startDuel} from '../../services/duelService.ts';
 import DuelTile from '../tiles/duel/DuelTile.tsx';
 import {ColorlibConnector} from './ColorlibConnector.tsx';
 import {ColorlibStepIcon} from './ColorlibStepIcon.tsx';
 import './DuelStepper.css';
-import {useJoinDuel} from '../../hooks/duels/useJoinDuel.ts';
-import {useStartDuel} from '../../hooks/duels/useStartDuel.ts';
 import StatePopUp from '../pop-ups/StatePopUp.tsx';
 
-export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished, onStartQuiz}) => {
+export const DuelStepper = ({user, lists, onStartQuiz}) => {
   const [activeStep, setActiveStep] = useState(0);
   const [duelAction, setDuelAction] = useState('');
   const [duels, setDuels] = useState([]);
   const [selectedDuelId, setSelectedDuelId] = useState(null);
+  const [showPopUpJoin, setShowPopUpJoin] = useState(false);
+  const [showPopUpStart, setShowPopUpStart] = useState(false);
   const steps = getSteps();
-  const {joinDuel, showPopup: showPopUpJoin, closePopup: closePopUpJoin, error: errorJoin} = useJoinDuel();
-  const {startDuel, showPopup: showPopUpStart, closePopup: closePopUpStart, error: errorStart} = useStartDuel();
 
   useEffect(() => {
     const fetchDuels = async () => {
@@ -47,31 +45,42 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished, onS
 
   const handleNext = async () => {
     try {
-      if (activeStep === 2 && (duelAction === 'start' || duelAction === 'play')) {
-        try {
+      if (activeStep === 2) {
           if (duelAction === 'start') {
-            await startDuel(selectedDuelId, user.userId);
+            try {
+              await startDuel(selectedDuelId, user.userId);
+              setShowPopUpStart(true);
+            } catch (error) {
+              console.error('Error starting duel:', error);
+            }
+            onStartQuiz(selectedDuelId);
           }
-          // Rufen Sie onStartQuiz auf, um das Quiz zu starten
-          onStartQuiz(selectedDuelId);
-        } catch (error) {
-          console.error('Error in duel process:', error);
-          // Fehlerbehandlung, z. B. Anzeigen einer Fehlermeldung
-        }
+          if (duelAction === 'join') {
+            try {
+              await joinDuel(selectedDuelId!, user.userId);
+              setShowPopUpJoin(true);
+              setTimeout(() => setShowPopUpJoin(false), 1000);
+              handleBack();
+              handleBack();
+            } catch (error) {
+              console.error('Error joining duel:', error);
+            }
+          }
+          if (duelAction === 'play') {
+            onStartQuiz(selectedDuelId);
+          }
       } else {
         setActiveStep(prev => prev + 1); // Gehe zum nächsten Schritt
       }
     } catch (error) {
       console.error('Error in duel process:', error);
-      // Fehlerbehandlung, z. B. Anzeigen einer Fehlermeldung
     }
   };
 
   const handleBack = () => {
     if (activeStep === 1) {
-      // Schritt "Join Duel" entfernen, wenn er existiert
       setDuelAction('');
-      setSelectedDuelId(null); // Deselektiert das ausgewählte Duel
+      setSelectedDuelId(null);
     }
     setActiveStep(prev => prev - 1);
   };
@@ -80,7 +89,7 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished, onS
     setSelectedDuelId(duelId);
   };
 
-  const handleDuelAction = (action) => {
+  const handleDuelAction = (action: SetStateAction<string>) => {
     setDuelAction(action);
     handleNext();
   };
@@ -163,13 +172,13 @@ export const DuelStepper = ({user, lists, onDuelSelected, onStepperFinished, onS
         )}
         {showPopUpJoin && (
           <StatePopUp
-            message={errorJoin ? "Joining duel failed. Please try again!" : "Joined Duel. Go start it or wait for your friends to do it!"}
-            type={errorJoin ? "error" : "success"} onClose={closePopUpJoin}/>
+            message={showPopUpJoin ? "Joined Duel. Go start it or wait for your friends to do it!" : "Joining duel failed. Please try again!"}
+            type={showPopUpJoin ? "success": "error"}/>
         )}
         {showPopUpStart && (
           <StatePopUp
-            message={errorStart ? "Starting duel failed. Please try again!" : "Started Duel. Have fun playing!"}
-            type={errorStart ? "error" : "success"} onClose={closePopUpStart}/>
+            message={showPopUpStart ? "Started Duel. Have fun playing!" : "Starting duel failed. Please try again!"}
+            type={showPopUpStart ? "success" : "error"}/>
         )}
       </div>
     </>

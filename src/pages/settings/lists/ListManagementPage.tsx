@@ -5,7 +5,6 @@ import {useState} from 'react';
 import './ListManagementPage.css';
 import {useLists} from '../../../hooks/lists/useLists.ts';
 import ListTile from '../../../components/tiles/list/ListTile.tsx';
-import {useDeleteList} from '../../../hooks/lists/useDeleteList.ts';
 import {FlashcardList} from '../../../types';
 import AddListTile from '../../../components/tiles/list/AddListTile.tsx';
 import {createList, deleteList} from '../../../services/listService.ts';
@@ -16,10 +15,9 @@ const ListManagementPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showSuccessPopupDelete, setShowSuccessPopupDelete] = useState(false);
   const [showSuccessPopupCreate, setShowSuccessPopupCreate] = useState(false);
-  const { lists, fetchLists} = useLists();
-  const { error} = useDeleteList()
   const [isTileFlipped, setIsTileFlipped] = useState(false);
   const [content, setContent] = useState('');
+  const { lists, fetchLists} = useLists();
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
@@ -52,14 +50,14 @@ const ListManagementPage = () => {
 
   const handleDelete = async (flashcardListId: number) => {
     await deleteList(flashcardListId);
-    if (!error) {
+    try {
       await fetchLists();
       setShowSuccessPopupDelete(true);
-    } else {
+    } catch (e) {
       alert('Failed to delete user');
     }
   };
-  lists.map((list: FlashcardList) => console.log(list.flashcardListname))
+
 
 
   return (

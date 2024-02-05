@@ -96,6 +96,7 @@ export const startDuel = async (duelID: number | null, userID: number)=> {
         'Content-Type': 'application/json',
       },
     });
+    console.log("Response",response)
 
     if (!response.ok) {
       throw new Error('Error joining duel');

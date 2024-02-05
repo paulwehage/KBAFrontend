@@ -1,26 +1,37 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import DuelTile from '../../../components/tiles/duel/DuelTile.tsx';
 import AddDuelTile from '../../../components/tiles/duel/AddDuelTile.tsx';
 import './DuelManagementPage.css';
 import BackButton from '../../../components/buttons/BackButton.tsx';
 import {useDuels} from '../../../hooks/duels/useDuels.ts';
-import {useLists} from '../../../hooks/lists/useLists.ts';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
-import {createDuel} from '../../../services/duelService.ts';
+import {createDuel, deleteDuel} from '../../../services/duelService.ts';
 import {useUserContext} from '../../../hooks/context/useUserContext.ts';
 import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
-import {useDeleteDuel} from '../../../hooks/duels/useDeleteDuel.ts';
+import {getAllLists} from '../../../services/listService.ts';
 
 const DuelManagementPage = () => {
   const { duels, fetchDuels } = useDuels();
-  const { lists } = useLists();
   const { user } = useUserContext();
-  const { deleteDuel } = useDeleteDuel();
   const [isTileFlipped, setIsTileFlipped] = useState(false);
   const [selectedListId, setSelectedListId] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showSuccessPopupDelete, setShowSuccessPopupDelete] = useState(false);
+  const [showSuccessPopupCreate, setShowSuccessPopupCreate] = useState(false);
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+      const fetchLists = async () => {
+      try {
+          const fetchedLists = await getAllLists();
+          setLists(fetchedLists);
+      } catch (error) {
+          console.error('Failed to fetch users:', error);
+      }
+      };
+      fetchLists();
+  }, [lists]);
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
@@ -31,7 +42,8 @@ const DuelManagementPage = () => {
       try {
         await createDuel(user?.userId, selectedListId);
         await fetchDuels();
-        setShowSuccessPopup(true);
+        setShowSuccessPopupCreate(true);
+        setShowSuccessPopupCreate(false)
       } catch (error) {
         console.error('Failed to create duel:', error);
       }
@@ -45,6 +57,7 @@ const DuelManagementPage = () => {
     try {
       await deleteDuel(duelId);
       await fetchDuels();
+      setShowSuccessPopupDelete(true);
     } catch (error) {
       console.error('Failed to delete duel:', error);
     }
@@ -82,11 +95,18 @@ const DuelManagementPage = () => {
             )}
         </div>
       </div>
-      {showSuccessPopup && (
+      {showSuccessPopupDelete && (
         <StatePopUp
           message="Duel successfully added"
           type="success"
-          onClose={() => setShowSuccessPopup(false)}
+          onClose={() => setShowSuccessPopupDelete(false)}
+        />
+      )}
+      {showSuccessPopupCreate && (
+        <StatePopUp
+          message="Duel successfully added"
+          type="success"
+          onClose={() => setShowSuccessPopupCreate(false)}
         />
       )}
     </>

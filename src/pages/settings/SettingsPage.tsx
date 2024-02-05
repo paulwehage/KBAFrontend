@@ -7,7 +7,7 @@ const SettingsPage = () => {
     <>
       <BackButton />
       <div className="settings-page">
-        <h1>Management</h1>
+        <h1>Settings</h1>
         <div className="tiles-container">
           <Tile iconType="user" text="Player" link="/settings/user" />
           <Tile iconType="list" text="Lists" link="/settings/lists" />

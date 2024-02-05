@@ -6,11 +6,11 @@ import {useUserContext} from '../../hooks/context/useUserContext.ts';
 
 const Quiz = ({ userId, duelId, onBackToStepper }) => {
   const [questions, setQuestions] = useState();
+  const [currentQuestionIndexUi, setCurrentQuestionIndexUi] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [endingMessage, setEndingMessage] = useState("");
   const [showEndingMessage, setShowEndingMessage] = useState(false);
   const [loading, setLoading] = useState(true); // Neuer Ladezustand
-  const [totalQuestions, setTotalQuestions] = useState(0);
   const {user} = useUserContext();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
         console.log("Fetching questions")
         const response = await getAllNotPlayedRounds(userId, duelId);
         setQuestions(response);
-        setCurrentQuestionIndex(10 - response.length); // Setzt den Startindex basierend auf den bereits gespielten Fragen
+        setCurrentQuestionIndexUi(10 - response.length); // Setzt den Startindex basierend auf den bereits gespielten Fragen
         setLoading(false); // Beendet den Ladevorgang, sobald die Daten geladen sind
       } catch (error) {
         console.error('Fehler beim Abrufen der Fragen:', error);
@@ -34,19 +34,16 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
     return <p>Laden der Fragen...</p>;
   }
 
-  if (!questions || questions.length === 0) {
-    return <p><b>You have played all questions in this duel. Wait for the other players to finish and see results in Duels in the Management Tab.</b></p>;
-  }
-
   const handleAnswerSubmit = async (isCorrect, answerText, roundId) => {
     try {
       await createAnswer(answerText, roundId, user!.userId);
       const nextQuestionIndex = currentQuestionIndex + 1;
       if (nextQuestionIndex < questions.length) {
+        setCurrentQuestionIndexUi(currentQuestionIndexUi + 1);
         setCurrentQuestionIndex(nextQuestionIndex);
       } else {
-        setShowEndingMessage(true);
         await checkWinners();
+        setShowEndingMessage(true);
       }
     } catch (error) {
       console.error('Fehler beim Senden der Antwort:', error);
@@ -56,15 +53,15 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
   const checkWinners = async () => {
     try {
       const winners = await getWinners(duelId);
-      if (winners.length === 0) {
-        setEndingMessage('Wait until each player is finished playing. Please see results in the Management/Duel Tab.');
-      } else {
+      if (winners.length > 0) {
         const userWon = winners.some(winner => winner.userId === userId);
         if (userWon) {
           setEndingMessage('Du hast gewonnen. Glückwunsch!');
         } else {
           setEndingMessage('Leider nicht gewonnen. Versuche es nochmal!');
         }
+      } else {
+        setEndingMessage('Wait until each player is finished playing. Please see results in the Management/Duel Tab.');
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Gewinner:', error);
@@ -88,37 +85,40 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
   };
 
   return (
-    <div className="quiz-container">
-      <button className="back-button" onClick={onBackToStepper}>Zurück</button>
-      {questions!.length > 0 ? (
-        showEndingMessage ? (
-          <div className='score-section'>
-            <b>{endingMessage}</b>
-          </div>
-        ) : (
-          <>
-            <div className='question-section'>
-              <div className='question-count'>
-                <span>Frage {currentQuestionIndex + 1}</span>/10
+    <>
+      <div className="quiz-container">
+        <button className="back-button" onClick={onBackToStepper}>Zurück</button>
+        {questions!.length > 0 ? (
+          showEndingMessage ? (
+            <div className='score-section'>
+              <b>{endingMessage}</b>
+            </div>
+          ) : (
+            <>
+              <div className='question-section'>
+                <div className='question-count'>
+                  <span>Frage {currentQuestionIndexUi + 1}</span>/10
+                </div>
+                <div className='question-text'>Whats the translation of <br/> <span
+                  className="question-voc">{questions[currentQuestionIndex]?.question}?</span></div>
               </div>
-              <div className='question-text'>Whats the translation of <br/> <span
-                className="question-voc">{questions[currentQuestionIndex]?.question}?</span></div>
-            </div>
-            <div className='answer-section'>
-              {getCurrentQuestionOptions().map((answerOption, index) => (
-                <button key={index}
-                        className="answer-button"
-                        onClick={() => handleAnswerSubmit(answerOption.isCorrect, answerOption.answerText, answerOption.roundId)}>
-                  {answerOption.answerText}
-                </button>
-              ))}
-            </div>
-          </>
-        )
-      ) : (
-        <p>No answers left.</p>
-      )}
-    </div>
+              <div className='answer-section'>
+                {getCurrentQuestionOptions().map((answerOption, index) => (
+                  <button key={index}
+                          className="answer-button"
+                          onClick={() => handleAnswerSubmit(answerOption.isCorrect, answerOption.answerText, answerOption.roundId)}>
+                    {answerOption.answerText}
+                  </button>
+                ))}
+              </div>
+            </>
+          )
+        ) : (
+          <p><b>Wait until each player is finished playing. Please see results in the Management/Duel Tab.</b></p>
+        )}
+      </div>
+    </>
+
   );
 }
 

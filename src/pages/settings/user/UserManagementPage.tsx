@@ -1,35 +1,32 @@
-import {useUsers} from '../../../hooks/user/useUsers.ts';
-import {useEffect, useState} from 'react';
+import {SetStateAction, useEffect, useState} from 'react';
 import UserTile from '../../../components/tiles/user/UserTile.tsx';
 import AddUserTile from '../../../components/tiles/user/AddUserTile.tsx';
-import './UserManagementPage.css';
 import BackButton from '../../../components/buttons/BackButton.tsx';
 import {faPencilAlt} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {useDeleteUser} from '../../../hooks/user/useDeleteUser.ts';
 import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
-import {useCreateUser} from '../../../hooks/user/useCreateUser.ts';
+import {createUser, deleteUser} from '../../../services/userService.ts';
+import {useUsers} from '../../../hooks/user/useUsers.ts';
+import './UserManagementPage.css';
 
 const UserManagementPage = () => {
-  const { users, fetchUsers } = useUsers();
-  const { deleteUser, error } = useDeleteUser();
   const [isEditMode, setIsEditMode] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Neuer State für das Popup
   const [showAddUser, setShowAddUser] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [isTileFlipped, setIsTileFlipped] = useState(false);
-  const { createUser } = useCreateUser();
+  const {users, fetchUsers} = useUsers();
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
   };
 
   const handleDelete = async (userId: number) => {
-    await deleteUser(userId);
-    if (!error) {
-      await fetchUsers(); // Benutzerliste neu laden
-      setShowSuccessPopup(true); // Zeige das Popup nach erfolgreichem Löschen
-    } else {
+    try {
+      await deleteUser(userId);
+      await fetchUsers();
+      setShowSuccessPopup(true);
+    } catch (error) {
       alert('Failed to delete user');
     }
   };
@@ -38,21 +35,17 @@ const UserManagementPage = () => {
     if (isTileFlipped) {
       await createUser(newUsername);
       setShowAddUser(false);
-      if (!error) {
-        await fetchUsers(); // Aktualisiere die Benutzerliste
+      try {
+        await fetchUsers();
         setShowSuccessPopup(true); // Zeige Erfolgspopup
         setNewUsername(''); // Setze den Benutzernamen zurück
+      } catch (error) {
+        alert('Failed to create user');
       }
     } else {
       handleFlipTile(); // Drehe das Tile um, um das Eingabefeld anzuzeigen
     }
   };
-
-  useEffect(() => {
-    if (error) {
-      alert('Failed to delete user');
-    }
-  }, [error]);
 
   useEffect(() => {
     if (showSuccessPopup) {
@@ -83,7 +76,7 @@ const UserManagementPage = () => {
               onAdd={handleCreateUser}
               onCancel={handleFlipTile}
               isFlipped={isTileFlipped}
-              onUsernameChange={(e) => setNewUsername(e.target.value)}
+              onUsernameChange={(e: { target: { value: SetStateAction<string>; }; }) => setNewUsername(e.target.value)}
             />)}
         </div>
       </div>

@@ -22,17 +22,6 @@ const HomePage = () => {
     setShowQuiz(false);
   };
 
-
-  const handleDuelSelected = (duelId: number) => {
-    console.log("Selected Duel ID:", duelId);
-    // Behandeln Sie die Auswahl eines Duells
-  };
-
-  const handleStepperFinished = () => {
-    console.log("Stepper finished");
-    // Behandeln Sie das Ende des Steppers
-  };
-
   return (
     <div className="home-container">
       <img src={logo} alt="logo" style={{ width: '200px' }} />
@@ -40,9 +29,8 @@ const HomePage = () => {
         <DuelStepper
           user={user}
           lists={lists}
-          onDuelSelected={handleDuelSelected}
-          onStepperFinished={handleStepperFinished}
           onStartQuiz={handleStartQuiz}
+          onJoinSuccess={handleBackToStepper}
         />
       ) : (
         <Quiz userId={user!.userId} duelId={selectedDuelId} onBackToStepper={handleBackToStepper}/>

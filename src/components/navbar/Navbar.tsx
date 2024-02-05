@@ -19,7 +19,7 @@ const Navbar = () => {
         {user && <span className="navbar-username"> Hello {user.username}!</span>}
       </div>
       <div className="navbar-controls">
-        <button className="navbar-button settings" onClick={() => navigate('/settings')}>Management</button>
+        <button className="navbar-button settings" onClick={() => navigate('/settings')}>Settings</button>
         <button className="navbar-button logout" onClick={logout}>Logout</button>
       </div>
     </nav>

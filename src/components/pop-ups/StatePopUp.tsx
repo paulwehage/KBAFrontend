@@ -6,7 +6,7 @@ const StatePopUp = ({ message, type, onClose }) => {
 
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      onClose(); // Schließt das Popup, wenn auf den Hintergrund geklickt wird
+      onClose();
     }
   };
 
