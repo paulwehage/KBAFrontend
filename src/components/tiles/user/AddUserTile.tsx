@@ -9,7 +9,7 @@ const AddUserTile = ({ onAdd, onCancel, isFlipped, onUsernameChange }) => {
         <div className="add-user-tile">
           {/* Inhalte der Vorderseite (Originalzustand) */}
           <FontAwesomeIcon icon={faPlusCircle} className="add-icon" />
-          <span>New User</span>
+          <span>Add Player</span>
         </div>
         <div className="back">
           <input
@@ -18,7 +18,7 @@ const AddUserTile = ({ onAdd, onCancel, isFlipped, onUsernameChange }) => {
             placeholder="Enter username"
             onChange={onUsernameChange} // Hier ändern
           />
-          <button className="add-button" onClick={onAdd}>Add User</button>
+          <button className="add-button" onClick={onAdd}>Add Player</button>
           <button className="cancel-button" onClick={onCancel}>Cancel</button>
         </div>
     </div>

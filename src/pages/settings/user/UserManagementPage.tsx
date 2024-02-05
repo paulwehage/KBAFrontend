@@ -66,7 +66,7 @@ const UserManagementPage = () => {
         </button>
       </div>
       <div className="user-management-container">
-        <h1>User Management</h1>
+        <h1>Player Management</h1>
         <div className="tiles-container">
           {users?.map((user) => (
             <UserTile key={user.userId} user={user} isEditMode={isEditMode} onDelete={handleDelete}/>

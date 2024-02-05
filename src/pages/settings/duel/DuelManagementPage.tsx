@@ -80,19 +80,20 @@ const DuelManagementPage = () => {
         </button>
       </div>
       <div className="duel-management-container">
+        <h1>List Management</h1>
         <div className="tiles-container">
           {duels?.map((duel) => (
-            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} onDelete={handleDeleteDuel} />
+            <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} onDelete={handleDeleteDuel}/>
           ))}
           {isEditMode && (
             <AddDuelTile
-            onAdd={handleAddDuel}
-            onCancel={handleCancel}
-            isFlipped={isTileFlipped}
-            lists={lists}
-            onListChange={handleListChange}
-          />
-            )}
+              onAdd={handleAddDuel}
+              onCancel={handleCancel}
+              isFlipped={isTileFlipped}
+              lists={lists}
+              onListChange={handleListChange}
+            />
+          )}
         </div>
       </div>
       {showSuccessPopupDelete && (

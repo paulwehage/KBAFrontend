@@ -11,8 +11,8 @@ const SettingsPage = () => {
         <div className="tiles-container">
           <Tile iconType="user" text="Player" link="/settings/user" />
           <Tile iconType="list" text="Lists" link="/settings/lists" />
-          <Tile iconType="database" text="Database" link="/settings/database" />
           <Tile iconType="duel" text="Duel" link="/settings/duel" />
+          <Tile iconType="database" text="Database" link="/settings/database" />
         </div>
       </div>
     </>

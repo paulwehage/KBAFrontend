@@ -8,7 +8,7 @@ const BackButton = () => {
 
   return (
     <button onClick={() => navigate(-1)} className="button">
-      <FontAwesomeIcon icon={faArrowLeft} /> Zurück
+      <FontAwesomeIcon icon={faArrowLeft} /> Back
     </button>
   );
 };

@@ -61,7 +61,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
           setEndingMessage('Leider nicht gewonnen. Versuche es nochmal!');
         }
       } else {
-        setEndingMessage('Wait until each player is finished playing. Please see results in the Management/Duel Tab.');
+        setEndingMessage('Wait until each player is finished playing. Please see results in the Settings/Duel Tab.');
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Gewinner:', error);
@@ -87,7 +87,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
   return (
     <>
       <div className="quiz-container">
-        <button className="back-button" onClick={onBackToStepper}>Zurück</button>
+        <button className="back-button" onClick={onBackToStepper}>Back</button>
         {questions!.length > 0 ? (
           showEndingMessage ? (
             <div className='score-section'>
@@ -97,7 +97,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
             <>
               <div className='question-section'>
                 <div className='question-count'>
-                  <span>Frage {currentQuestionIndexUi + 1}</span>/10
+                  <span>Question {currentQuestionIndexUi + 1}</span>/10
                 </div>
                 <div className='question-text'>Whats the translation of <br/> <span
                   className="question-voc">{questions[currentQuestionIndex]?.question}?</span></div>
@@ -114,7 +114,7 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
             </>
           )
         ) : (
-          <p><b>Wait until each player is finished playing. Please see results in the Management/Duel Tab.</b></p>
+          <p><b>Wait until each player is finished playing. Please see results in the Settings/Duel Tab.</b></p>
         )}
       </div>
     </>
