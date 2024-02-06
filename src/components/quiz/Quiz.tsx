@@ -16,7 +16,6 @@ const Quiz = ({ userId, duelId, onBackToStepper }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        console.log("Fetching questions")
         const response = await getAllNotPlayedRounds(userId, duelId);
         setQuestions(response);
         setCurrentQuestionIndexUi(10 - response.length); // Setzt den Startindex basierend auf den bereits gespielten Fragen

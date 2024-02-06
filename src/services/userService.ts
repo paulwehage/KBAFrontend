@@ -48,6 +48,5 @@ export const deleteUser = async (userId: number) => {
   if (!response.ok) {
     throw new Error('Error deleting user');
   }
-  console.log(response)
   return response.ok;
 };

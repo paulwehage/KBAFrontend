@@ -30,7 +30,6 @@ export const deleteDuel = async (duelId: number) => {
     if (!response.ok) {
         throw new Error('Error deleting duel');
     }
-    console.log(response)
     return response.ok;
 }
 export const getDuelsToStart = async (userID: number) => {
@@ -49,7 +48,6 @@ export const getDuelsToStart = async (userID: number) => {
 export const getDuelsToJoin = async (userID: number) => {
   try {
     const response = await fetch(`${API_BASE_URL}/duel/tojoin?userId=${userID}`);
-    console.log("Response TO Join",response)
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -96,7 +94,6 @@ export const startDuel = async (duelID: number | null, userID: number)=> {
         'Content-Type': 'application/json',
       },
     });
-    console.log("Response",response)
 
     if (!response.ok) {
       throw new Error('Error joining duel');

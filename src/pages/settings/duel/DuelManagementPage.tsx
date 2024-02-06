@@ -43,7 +43,6 @@ const DuelManagementPage = () => {
         await createDuel(user?.userId, selectedListId);
         await fetchDuels();
         setShowSuccessPopupCreate(true);
-        setShowSuccessPopupCreate(false)
       } catch (error) {
         console.error('Failed to create duel:', error);
       }
@@ -71,6 +70,17 @@ const DuelManagementPage = () => {
     setSelectedListId(e.target.value);
   };
 
+  useEffect(() => {
+    if (showSuccessPopupCreate || showSuccessPopupCreate) {
+      const timer = setTimeout(() => {
+        setShowSuccessPopupCreate(false);
+        setShowSuccessPopupDelete(false)
+      }, 2000); // Setze Timer auf 2 Sekunden
+
+      return () => clearTimeout(timer); // Bereinige den Timer
+    }
+  }, [setShowSuccessPopupCreate, setShowSuccessPopupDelete]);
+
   return (
     <>
       <div className="duel-management-header">
@@ -80,7 +90,7 @@ const DuelManagementPage = () => {
         </button>
       </div>
       <div className="duel-management-container">
-        <h1>List Management</h1>
+        <h1>Duel Management</h1>
         <div className="tiles-container">
           {duels?.map((duel) => (
             <DuelTile key={duel.duelId} duel={duel} isEditMode={isEditMode} lists={lists} onDelete={handleDeleteDuel}/>
@@ -98,14 +108,14 @@ const DuelManagementPage = () => {
       </div>
       {showSuccessPopupDelete && (
         <StatePopUp
-          message="Duel successfully added"
+          message="Duel successfully deleted!"
           type="success"
           onClose={() => setShowSuccessPopupDelete(false)}
         />
       )}
       {showSuccessPopupCreate && (
         <StatePopUp
-          message="Duel successfully added"
+          message="Duel successfully added!"
           type="success"
           onClose={() => setShowSuccessPopupCreate(false)}
         />

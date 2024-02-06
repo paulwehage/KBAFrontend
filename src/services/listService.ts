@@ -31,7 +31,6 @@ export const deleteList = async (listId: number) => {
     if (!response.ok) {
         throw new Error('Error deleting list');
     }
-    console.log(response)
 }
 
 export const loadInitialListData = async () => {
@@ -45,6 +44,6 @@ export const loadInitialListData = async () => {
   if (!response.ok) {
     throw new Error('Error importing list');
   }
-  return response.json();
+  return response;
 
 }

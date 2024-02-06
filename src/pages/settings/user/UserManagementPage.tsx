@@ -8,14 +8,18 @@ import StatePopUp from '../../../components/pop-ups/StatePopUp.tsx';
 import {createUser, deleteUser} from '../../../services/userService.ts';
 import {useUsers} from '../../../hooks/user/useUsers.ts';
 import './UserManagementPage.css';
+import {useUserContext} from '../../../hooks/context/useUserContext.ts';
 
 const UserManagementPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Neuer State für das Popup
   const [showAddUser, setShowAddUser] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [isTileFlipped, setIsTileFlipped] = useState(false);
   const {users, fetchUsers} = useUsers();
+  const {user} = useUserContext();
+  const loggedInUserId = user?.userId;
+  const [showSuccessPopupCreate, setShowSuccessPopupCreate] = useState(false);
+  const [showSuccessPopupDelete, setShowSuccessPopupDelete] = useState(false);
 
   const handleFlipTile = () => {
     setIsTileFlipped(!isTileFlipped);
@@ -25,7 +29,7 @@ const UserManagementPage = () => {
     try {
       await deleteUser(userId);
       await fetchUsers();
-      setShowSuccessPopup(true);
+      setShowSuccessPopupDelete(true);
     } catch (error) {
       alert('Failed to delete user');
     }
@@ -37,7 +41,7 @@ const UserManagementPage = () => {
       setShowAddUser(false);
       try {
         await fetchUsers();
-        setShowSuccessPopup(true); // Zeige Erfolgspopup
+        setShowSuccessPopupCreate(true); // Zeige Erfolgspopup
         setNewUsername(''); // Setze den Benutzernamen zurück
       } catch (error) {
         alert('Failed to create user');
@@ -48,14 +52,15 @@ const UserManagementPage = () => {
   };
 
   useEffect(() => {
-    if (showSuccessPopup) {
+    if (showSuccessPopupCreate || showSuccessPopupCreate) {
       const timer = setTimeout(() => {
-        setShowSuccessPopup(false);
+        setShowSuccessPopupCreate(false);
+        setShowSuccessPopupDelete(false)
       }, 2000); // Setze Timer auf 2 Sekunden
 
       return () => clearTimeout(timer); // Bereinige den Timer
     }
-  }, [showSuccessPopup]);
+  }, [setShowSuccessPopupCreate, setShowSuccessPopupDelete]);
 
   return (
     <>
@@ -69,7 +74,7 @@ const UserManagementPage = () => {
         <h1>Player Management</h1>
         <div className="tiles-container">
           {users?.map((user) => (
-            <UserTile key={user.userId} user={user} isEditMode={isEditMode} onDelete={handleDelete}/>
+            <UserTile key={user.userId} user={user} isEditMode={isEditMode} onDelete={handleDelete} isDeletableUser={user.userId != loggedInUserId}/>
           ))}
           {isEditMode && (
             <AddUserTile
@@ -92,11 +97,18 @@ const UserManagementPage = () => {
           <button onClick={() => setShowAddUser(false)}>Cancel</button>
         </div>
       )}
-      {showSuccessPopup && (
+      {showSuccessPopupCreate && (
         <StatePopUp
-          message="User successfully deleted"
+          message="User successfully created!"
           type="success"
-          onClose={() => setShowSuccessPopup(false)}
+          onClose={() => setShowSuccessPopupCreate(false)}
+        />
+      )}
+      {showSuccessPopupDelete && (
+        <StatePopUp
+          message="User successfully deleted!"
+          type="success"
+          onClose={() => setShowSuccessPopupDelete(false)}
         />
       )}
     </>
