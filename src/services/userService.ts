@@ -36,7 +36,7 @@ export const createUser = async (username: string) => {
     body: JSON.stringify({ username }),
   });
   if (!response.ok) {
-    throw new Error('Error creating user');
+    throw new Error(await response.text());
   }
   return response.json();
 };
@@ -46,7 +46,7 @@ export const deleteUser = async (userId: number) => {
     method: 'DELETE',
   });
   if (!response.ok) {
-    throw new Error('Error deleting user');
+    throw new Error(await response.text());
   }
   return response.ok;
 };

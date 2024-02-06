@@ -31,20 +31,24 @@ const UserManagementPage = () => {
       await fetchUsers();
       setShowSuccessPopupDelete(true);
     } catch (error) {
-      alert('Failed to delete user');
+      alert(error);
     }
   };
 
   const handleCreateUser = async () => {
     if (isTileFlipped) {
-      await createUser(newUsername);
-      setShowAddUser(false);
       try {
-        await fetchUsers();
-        setShowSuccessPopupCreate(true); // Zeige Erfolgspopup
-        setNewUsername(''); // Setze den Benutzernamen zurück
+        await createUser(newUsername);
+        setShowAddUser(false);
+        try {
+          await fetchUsers();
+          setShowSuccessPopupCreate(true); // Zeige Erfolgspopup
+          setNewUsername(''); // Setze den Benutzernamen zurück
+        } catch (error) {
+          alert('Failed to create user');
+        }
       } catch (error) {
-        alert('Failed to create user');
+        alert(error)
       }
     } else {
       handleFlipTile(); // Drehe das Tile um, um das Eingabefeld anzuzeigen
@@ -74,7 +78,8 @@ const UserManagementPage = () => {
         <h1>Player Management</h1>
         <div className="tiles-container">
           {users?.map((user) => (
-            <UserTile key={user.userId} user={user} isEditMode={isEditMode} onDelete={handleDelete} isDeletableUser={user.userId != loggedInUserId}/>
+            <UserTile key={user.userId} user={user} isEditMode={isEditMode} onDelete={handleDelete}
+                      isDeletableUser={user.userId != loggedInUserId}/>
           ))}
           {isEditMode && (
             <AddUserTile

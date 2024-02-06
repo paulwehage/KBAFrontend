@@ -49,12 +49,12 @@ const ListManagementPage = () => {
   };
 
   const handleDelete = async (flashcardListId: number) => {
-    await deleteList(flashcardListId);
     try {
+      await deleteList(flashcardListId);
       await fetchLists();
       setShowSuccessPopupDelete(true);
     } catch (e) {
-      alert('Failed to delete user');
+      alert(e);
     }
   };
 

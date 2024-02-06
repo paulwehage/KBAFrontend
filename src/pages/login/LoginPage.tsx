@@ -48,7 +48,7 @@ const LoginPage = () => {
       <button onClick={handleLogin} className="login-button login" disabled={isEmpty}>
         Start
       </button>
-      <button onClick={handleRegister} className="login-button register" disabled={isEmpty}>
+      <button onClick={handleRegister} className="login-button register" disabled={isEmpty} title={'First type in a username'}>
         Register
       </button>
       {showLoginPopup && (
